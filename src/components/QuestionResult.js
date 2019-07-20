@@ -20,7 +20,6 @@ class QuestionResult extends Component {
         ? (optionTwoValue / (optionOneValue + optionTwoValue) * 100).toFixed(2)
         : 0
         const userAnswer = this.props.users[this.props.authedUser].answers[question.id]
-        console.log("question", userAnswer)
     return (
       <div className='container'>
         <div className='card'>

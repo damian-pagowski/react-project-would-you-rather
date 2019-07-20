@@ -9,13 +9,11 @@ class Question extends Component {
 
   viewResults = () => {
       this.setState({redirect : true})
-
   };
 
   render() {
     const question = this.props.question;
-    console.log("Question:", question);
-    if (this.props.authedUser === null) {
+    if (! this.props.authedUser) {
       return <Redirect to="/login" />;
     }
     if (this.state.redirect) {
@@ -37,7 +35,7 @@ class Question extends Component {
               <img
                 className="img-fluid"
                 src={question.authorAvatar}
-                alt="blah"
+                alt="User Avatar"
               />
             </div>
             <div className="col-xs-6 col-sm-6 col-md-6">

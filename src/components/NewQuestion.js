@@ -7,13 +7,9 @@ class NewQuestion extends Component {
   state = {
     optionOneText: "",
     optionTwoText: "",
-    toHome: false,
+    redirect: false,
   };
 
-  //  DELETE ME LATER
-  componentDidUpdate() {
-    console.log("new question", this.props);
-  }
 
   handleChangePartOne = e => {
     e.preventDefault();
@@ -34,8 +30,7 @@ class NewQuestion extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const author = this.props.author;
-    const { dispatch } = this.props;
+    const { dispatch, author } = this.props;
     const question = {
       optionOneText: this.state.optionOneText,
       optionTwoText: this.state.optionTwoText,
@@ -47,15 +42,15 @@ class NewQuestion extends Component {
     this.setState(() => ({
       optionOneText: "",
       optionTwoText: "",
-      toHome: true,
+      redirect: true,
     }));
   };
 
   render() {
-    const { toHome } = this.state;
+    const { redirect } = this.state;
     const author = this.props.author;
 
-    if (toHome === true) {
+    if (redirect) {
       return <Redirect to="/" />;
     }
     if (author === null) {
@@ -63,7 +58,7 @@ class NewQuestion extends Component {
     }
     return (
       <div className="container">
-        <h2 className="text-center mt-4">Create New Question</h2>
+        <h2 className="text-center mt-4">Add Question</h2>
         <p className="text-center">
           <b>Would you rather...</b>
         </p>

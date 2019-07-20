@@ -4,31 +4,24 @@ import { handleSaveAnswer } from "../actions/questions";
 import { Redirect } from "react-router-dom";
 
 class AnsweringQuestion extends Component {
-  componentDidUpdate() {
-    console.log("AnsweringQuestion props>> ", this.props);
-    console.log("AnsweringQuestion state>> ", this.state);
-  }
-
   state = {
     redirect: false,
     answer: "",
   };
 
   selectOptionOne = () => {
-    this.setState({ answer: "optionOne"});
+    this.setState({ answer: "optionOne" });
   };
 
   selectOptionTwo = () => {
-    this.setState({ answer: "optionTwo"});
+    this.setState({ answer: "optionTwo" });
   };
 
   handleSubmit = e => {
     e.preventDefault();
     const qid = this.props.location.state.question.id;
-    const authedUser = this.props.authedUser;
-    const dispatch = this.props.dispatch;
+    const { authedUser, dispatch } = this.props;
     const answer = this.state.answer;
-    // building config object for _DATA
     const params = { authedUser, qid, answer };
     dispatch(handleSaveAnswer(params));
     this.setState({ redirect: true });
@@ -38,12 +31,18 @@ class AnsweringQuestion extends Component {
     if (!this.props.authedUser) {
       return <Redirect to="/login" />;
     }
-    if (this.state.redirect) {
-      return <Redirect to="/" />;
-    }
-
     const question = this.props.location.state.question;
 
+    if (this.state.redirect) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/results/${question.id}`,
+            state: { question: question, authedUser: this.props.authedUser },
+          }}
+        />
+      );
+    }
     return (
       <div className="card">
         <div className="card-body">
@@ -52,7 +51,7 @@ class AnsweringQuestion extends Component {
               <img
                 className="img-fluid"
                 src={question.authorAvatar}
-                alt="blah"
+                alt="User Avatar"
               />
             </div>
             <div className="col-xs-6 col-sm-6 col-md-6">

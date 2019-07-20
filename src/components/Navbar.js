@@ -30,9 +30,9 @@ class Navbar extends Component {
 
     return (
       <nav className="navbar navbar-expand-md navbar-light bg-light">
-        <a className="navbar-brand" href="#">
+        <button className="navbar-brand button-link" >
           <i className="fa fa-gamepad" />
-        </a>
+        </button>
         <button
           className="navbar-toggler"
           type="button"
@@ -48,29 +48,17 @@ class Navbar extends Component {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item active">
-              <NavLink
-                className="nav-link"
-                to="/"
-                exact
-              >
+              <NavLink className="nav-link" to="/" exact>
                 Home
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink
-                className="nav-link"
-                to="/new"
-                exact
-              >
-                New Question
+              <NavLink className="nav-link" to="/add" exact>
+                Add Question
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink
-                className="nav-link"
-                to="/leaderboard"
-                exact
-              >
+              <NavLink className="nav-link" to="/leaderboard" exact>
                 Leader Board
               </NavLink>
             </li>
@@ -82,13 +70,13 @@ class Navbar extends Component {
               </div>
             </li>
             <li className="nav-item">
-              <a
-                className="nav-link"
+              <button
+                className="nav-link button-link"
                 onClick={this.handleLogout}
                 exact
               >
                 <i className="fa fa-sign-out" /> Logout
-              </a>
+              </button>
             </li>
           </ul>
         </div>

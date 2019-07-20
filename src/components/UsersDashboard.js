@@ -1,27 +1,21 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 import User from './User'
 import { connect } from 'react-redux'
-import { Redirect } from "react-router-dom";
+import { Redirect } from 'react-router-dom'
 
 class UsersDashboard extends Component {
-  componentDidUpdate () {
-    console.log('DASHBOARD:', this.props)
-  }
+
   render () {
-    if (this.props.authedUser === null){
-      return <Redirect to="/login" />;
+    if (!this.props.authedUser) {
+      return <Redirect to='/login' />
     }
     return (
       <div>
         <h3 className='text-center'>Top Users</h3>
         <div className='container'>
           <ul className='dashboard-list'>
-            {this.props.userIds.map(id =>
-              <li key={id}>
-                <div>
-                  <User id={id} />
-                </div>
-              </li>
+            {this.props.formattedUsers.sort((a,b) => b.scores - a.scores).map(user =>
+              <User user={user}/>
             )}
           </ul>
         </div>
@@ -30,9 +24,24 @@ class UsersDashboard extends Component {
   }
 }
 
-function mapStateToProps ({ users , authedUser}) {
+function mapStateToProps ({ users, authedUser }) {
+  const formattedUsers = Object.values(users).map(user =>
+    Object.assign(
+      {},
+      { id: user.id },
+      { name: user.name },
+      { questions: Object.keys(user.questions).length },
+      { answers: Object.keys(user.answers).length },
+      {
+        scores:
+          Object.keys(user.questions).length + Object.keys(user.answers).length
+      },
+      { avatar: user.avatarURL }
+    )
+  )
+
   return {
-    userIds: Object.keys(users),
+    formattedUsers,
     authedUser
   }
 }

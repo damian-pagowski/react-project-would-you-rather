@@ -9,14 +9,8 @@ class Login extends Component {
     selectedUser: null,
   };
 
-  //  DELETE ME LATER
-  componentDidUpdate() {
-    console.log("Users", this.props);
-  }
-
   handleChange = e => {
     const selectedUser = e.target.value;
-    console.log("About login as...", selectedUser); // Delete later
     this.setState(() => ({
       selectedUser: selectedUser,
     }));
@@ -27,7 +21,7 @@ class Login extends Component {
     const selectedUser = this.state.selectedUser;
     const { dispatch } = this.props;
 
-    dispatch(setAuthedUser(selectedUser)); // login
+    dispatch(setAuthedUser(selectedUser)); 
     this.setState({
       redirect: true,
     });
@@ -83,8 +77,7 @@ class Login extends Component {
 }
 
 function mapStateToProps({ users, authedUser }) {
-  const usernames = Object.keys(users);
-  const loginData = usernames.map(uname => ({
+  const loginData = Object.keys(users).map(uname => ({
     name: uname,
     display: users[uname].name,
   }));

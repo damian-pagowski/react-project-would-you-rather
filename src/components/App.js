@@ -7,17 +7,14 @@ import Login from './Login'
 import NewQuestion from './NewQuestion'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Navbar from './Navbar'
-import AnsweringQuestion from './AnsweringQuestion';
-import QuestionResult from './QuestionResult';
+import AnsweringQuestion from './AnsweringQuestion'
+import QuestionResult from './QuestionResult'
 
 class App extends Component {
   componentDidMount () {
     this.props.dispatch(handleInitialData())
   }
 
-  shouldComponentUpdate () {
-    console.log('APP', this.props)
-  }
   render () {
     return (
       <Router>
@@ -26,11 +23,10 @@ class App extends Component {
             <Navbar />
             <Route path='/' exact component={QuestionsDashboard} />
             <Route path='/leaderboard' component={UsersDashboard} />
-            <Route path='/new' component={NewQuestion} />
+            <Route path='/add' component={NewQuestion} />
             <Route path='/login' component={Login} />
-            <Route path="/answering/:id" component={AnsweringQuestion} />
-            <Route path="/results/:id" component={QuestionResult} />
-
+            <Route path='/answering/:id' component={AnsweringQuestion} />
+            <Route path='/results/:id' component={QuestionResult} />
           </div>
         </Fragment>
       </Router>
