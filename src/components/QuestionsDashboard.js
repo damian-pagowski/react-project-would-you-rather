@@ -24,13 +24,6 @@ class QuestionsDashboard extends Component {
     if (this.props.authedUser === null) {
       return <Redirect to="/login" />;
     }
-    const answeredQuestionIds = this.props.answeredQuestions.map(q => q.id);
-    const unansweredQuestionIds = this.props.questionIds.filter(
-      id => !answeredQuestionIds.includes(id)
-    );
-    const questionsToDisplay = this.state.displayUnanswered
-      ? unansweredQuestionIds
-      : answeredQuestionIds;
     return (
       <div className="mt-4">
         <div className="container">
@@ -57,14 +50,14 @@ class QuestionsDashboard extends Component {
 
           <ul className="dashboard-list">
             {this.state.displayUnanswered
-              ? unansweredQuestionIds.map(id =>
+              ? this.props.unansweredQuestions.map(id =>
                   <li key={id}>
                     <div>
                       <QuestionUnanswered id={id} />
                     </div>
                   </li>
                 )
-              : answeredQuestionIds.map(id =>
+              : this.props.answeredQuestions.map(id =>
                   <li key={id}>
                     <div>
                       <Question id={id} />
@@ -81,15 +74,17 @@ class QuestionsDashboard extends Component {
 function mapStateToProps({ questions, users, authedUser }) {
   const currentUser = users[authedUser];
   const answeredQuestions = currentUser
-    ? Object.keys(currentUser.answers).map(id => ({
-        id: id,
-        option: currentUser.answers[id],
-      }))
+    ? Object.keys(currentUser.answers)
     : null;
+  const unansweredQuestions =
+    answeredQuestions && questions
+      ? Object.keys(questions).filter(id => !answeredQuestions.includes(id))
+      : null;
   return {
     questionIds: Object.keys(questions),
     authedUser,
     answeredQuestions,
+    unansweredQuestions,
   };
 }
 

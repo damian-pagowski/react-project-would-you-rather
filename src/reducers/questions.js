@@ -21,8 +21,15 @@ export default function questions (state = {}, action) {
     case SAVE_ANSWER:
       return {
         ...state,
-        ...action.questions,
-        ...action.users
+        [action.question]: {
+          ...state[action.question],
+          [action.answer]: {
+            ...state[action.question][action.answer],
+            votes: state[action.question][action.answer].votes.concat([
+              action.user
+            ])
+          }
+        }
       }
     default:
       return state

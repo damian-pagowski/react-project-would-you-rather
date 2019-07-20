@@ -46,15 +46,16 @@ class Login extends Component {
               <div className="card-body">
                 <h5 className="card-title text-center">Sign In</h5>
                 <form className="form-signin" onSubmit={this.handleSubmit}>
-                  <div class="form-group">
-                    <label for="sel1" />
+                  <div className="form-group">
+                    <label htmlFor="sel1" />
                     <select
-                      class="form-control"
+                      className="form-control"
                       id="user"
                       name="user"
                       onChange={this.handleChange}
+                      defaultValue="none"
                     >
-                      <option disabled selected>
+                      <option disabled value="none">
                         Select User
                       </option>
 

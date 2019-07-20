@@ -8,6 +8,7 @@ import NewQuestion from './NewQuestion'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Navbar from './Navbar'
 import AnsweringQuestion from './AnsweringQuestion';
+import QuestionResult from './QuestionResult';
 
 class App extends Component {
   componentDidMount () {
@@ -28,7 +29,7 @@ class App extends Component {
             <Route path='/new' component={NewQuestion} />
             <Route path='/login' component={Login} />
             <Route path="/answering/:id" component={AnsweringQuestion} />
-            {/* <Route path="/result/:id" component={QuestionResult} /> */}
+            <Route path="/results/:id" component={QuestionResult} />
 
           </div>
         </Fragment>

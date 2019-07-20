@@ -19,10 +19,13 @@ class QuestionUnanswered extends Component {
         <Redirect
           to={{
             pathname: `/answering/${question.id}`,
-            state: { question: question },
+            state: { question: question, authedUser: this.props.authedUser },
           }}
         />
       );
+    }
+    if (this.props.authedUser === null) {
+      return <Redirect to="/login" />;
     }
 
     return (
@@ -63,17 +66,17 @@ class QuestionUnanswered extends Component {
     );
   }
 }
-function mapStateToProps({ questions, users }, { id }) {
+function mapStateToProps({ questions, users, authedUser }, { id }) {
   const question = questions[id];
   const user = users[question.author];
   return {
-    // authedUser,
+   authedUser,
     question:
       Object.assign(
         {},
         question,
         { authorFullName: user ? user.name : "no name"},
-        { authorAvatar: user ? user.avatarURL :"none"}
+        { authorAvatar: user ? user.avatarURL : "none"}
       ) || null,
   };
 }

@@ -53,7 +53,7 @@ class Navbar extends Component {
                 className="nav-link"
                 to="/"
                 exact
-                activeClassName="active"
+                 
               >
                 Home
               </NavLink>
@@ -63,7 +63,7 @@ class Navbar extends Component {
                 className="nav-link"
                 to="/new"
                 exact
-                activeClassName="active"
+                 
               >
                 New Question
               </NavLink>
@@ -73,13 +73,13 @@ class Navbar extends Component {
                 className="nav-link"
                 to="/leaderboard"
                 exact
-                activeClassName="active"
+                 
               >
                 Leader Board
               </NavLink>
             </li>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
+          <ul className="nav navbar-nav navbar-right">
             <li className="nav-item">
               <div className="nav-link">
                 <i className="fa fa-user" /> {loggedUserData.display}
@@ -91,7 +91,7 @@ class Navbar extends Component {
                 to="/login"
                 onClick={this.handleLogout}
                 exact
-                activeClassName="active"
+                 
               >
                 <i className="fa fa-sign-out" /> Logout
               </a>

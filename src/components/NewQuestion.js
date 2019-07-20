@@ -42,10 +42,7 @@ class NewQuestion extends Component {
       author,
     };
 
-    const ret = dispatch(handleAddQuestion(question)); // login
-    // dispatch(updateUserOnAnsweringQuestion)
-
-    console.log("QUESTION RINT", JSON.stringify(ret));
+    dispatch(handleAddQuestion(question));
 
     this.setState(() => ({
       optionOneText: "",

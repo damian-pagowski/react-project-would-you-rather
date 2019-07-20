@@ -1,42 +1,48 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { handleSaveAnswer } from "../actions/questions";
+import { Redirect } from "react-router-dom";
 
 class AnsweringQuestion extends Component {
+  componentDidUpdate() {
+    console.log("AnsweringQuestion props>> ", this.props);
+    console.log("AnsweringQuestion state>> ", this.state);
+  }
+
   state = {
     redirect: false,
-    answer: null,
+    answer: "",
   };
 
-  selectOptionOne() {
-    this.setState({ answer: "optionOne" });
-  }
-  selectOptionTwo() {
-    this.setState({ answer: "optionTwo" });
-  }
-  handleSubmit(e) {
-    e.preventDefault();
-    const selectedUser = this.state.selectedUser;
-    const { dispatch } = this.props;
+  selectOptionOne = () => {
+    this.setState({ answer: "optionOne"});
+  };
 
-    // dispatch(setAuthedUser(selectedUser)); // login
-    // this.setState({
-    //   redirect: true,
-    // });
-  }
-  componentDidUpdate() {
-    console.log(
-      "Answering question props.location:",
-      this.props.location.state.question
-    );
-    console.log("Answering question props:", this.props, "END!");
-  }
+  selectOptionTwo = () => {
+    this.setState({ answer: "optionTwo"});
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const qid = this.props.location.state.question.id;
+    const authedUser = this.props.authedUser;
+    const dispatch = this.props.dispatch;
+    const answer = this.state.answer;
+    // building config object for _DATA
+    const params = { authedUser, qid, answer };
+    dispatch(handleSaveAnswer(params));
+    this.setState({ redirect: true });
+  };
 
   render() {
+    if (!this.props.authedUser) {
+      return <Redirect to="/login" />;
+    }
+    if (this.state.redirect) {
+      return <Redirect to="/" />;
+    }
+
     const question = this.props.location.state.question;
-    console.log(
-      "Answering question props.location:",
-      this.props.location.state.question
-    );
 
     return (
       <div className="card">
@@ -55,21 +61,42 @@ class AnsweringQuestion extends Component {
               </h6>
               <p className="card-text">Would you rather:</p>
 
-              <div>
+              <form onSubmit={this.handleSubmit}>
+                <div className="form-check">
+                  <input
+                    onClick={this.selectOptionOne}
+                    className="form-check-input"
+                    type="radio"
+                    name="answer"
+                    id="answerOne"
+                    value="optionOne"
+                    required
+                  />
+                  <label className="form-check-label" htmlFor="answerOne">
+                    {question.optionOne.text}
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    onClick={this.selectOptionTwo}
+                    className="form-check-input"
+                    type="radio"
+                    name="answer"
+                    id="answerTwo"
+                    value="optionTwo"
+                    required
+                  />
+                  <label className="form-check-label" htmlFor="answerTwo">
+                    {question.optionTwo.text}
+                  </label>
+                </div>
                 <button
-                  className="btn btn-primary btn-block"
-                  onClick={this.selectOptionOne}
+                  className="btn btn-primary btn-block text-uppercase mt-3"
+                  type="submit"
                 >
-                  {question.optionOne.text}
+                  Submit
                 </button>
-                <p className="card-text mb-1 mt-1 text-center" >OR</p>
-                <button
-                  className="btn btn-primary btn-block"
-                  onClick={this.selectOptionTwo}
-                >
-                  {question.optionTwo.text}
-                </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -77,12 +104,8 @@ class AnsweringQuestion extends Component {
     );
   }
 }
-function mapStateToProps({ questions, users, authedUser }) {
-  //   const question = questions[id];
-  //   const user = users[question.author];
+function mapStateToProps({ authedUser }) {
   return {
-    users,
-    questions,
     authedUser,
   };
 }
