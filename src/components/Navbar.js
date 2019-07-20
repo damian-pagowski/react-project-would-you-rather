@@ -52,7 +52,6 @@ class Navbar extends Component {
                 className="nav-link"
                 to="/"
                 exact
-                 
               >
                 Home
               </NavLink>
@@ -62,7 +61,6 @@ class Navbar extends Component {
                 className="nav-link"
                 to="/new"
                 exact
-                 
               >
                 New Question
               </NavLink>
@@ -72,7 +70,6 @@ class Navbar extends Component {
                 className="nav-link"
                 to="/leaderboard"
                 exact
-                 
               >
                 Leader Board
               </NavLink>
@@ -87,10 +84,8 @@ class Navbar extends Component {
             <li className="nav-item">
               <a
                 className="nav-link"
-                to="/login"
                 onClick={this.handleLogout}
                 exact
-                 
               >
                 <i className="fa fa-sign-out" /> Logout
               </a>
