@@ -8,10 +8,6 @@ class Navbar extends Component {
   state = {
     redirect: false,
   };
-  componentDidUpdate() {
-    const loggedUserData = this.props.loginData;
-    console.log("Navbar", loggedUserData);
-  }
 
   handleLogout = e => {
     const { dispatch } = this.props;
@@ -65,7 +61,7 @@ class Navbar extends Component {
           </ul>
           <ul className="nav navbar-nav navbar-right">
             <li className="nav-item">
-              <div className="nav-link">
+              <div className="nav-link username">
                 <i className="fa fa-user" /> {loggedUserData.display}
               </div>
             </li>
