@@ -2,6 +2,12 @@
 
 Sample react app that uses Redux for managing state. Purpose of creating this app was to demonstrate understanding of basics of React and Redux
 
+## Running app
+
+To start developing or just running app use following sequence of commands:
+1. npm install
+2. npm start
+
 ## Data
 The `_DATA.js` file represents a fake database and methods that let you access the data.
 There are two types of objects stored in our database:
