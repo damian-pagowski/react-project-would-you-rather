@@ -44,11 +44,11 @@ class QuestionUnanswered extends Component {
                 {question.authorFullName} asked question:
               </h6>
               <p className="card-text">Would you rather:</p>
-              <p className="card-text bg-secondary">
+              <p className="card-text bg-info">
                 {question.optionOne.text}
               </p>
               <p className="card-text">OR</p>
-              <p className="card-text bg-secondary">
+              <p className="card-text bg-info">
                 {question.optionTwo.text}
               </p>
             </div>

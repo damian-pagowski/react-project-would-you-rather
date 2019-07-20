@@ -6,7 +6,7 @@ import { Redirect } from "react-router-dom";
 
 class Navbar extends Component {
   state = {
-    shouldRedirectToLogin: false,
+    redirect: false,
   };
   componentDidUpdate() {
     const loggedUserData = this.props.loginData;
@@ -15,17 +15,16 @@ class Navbar extends Component {
 
   handleLogout = e => {
     const { dispatch } = this.props;
-
     e.preventDefault();
-    dispatch(signOut()); // login
-    this.setState({ shouldRedirectToLogin: true });
+    dispatch(signOut());
+    this.setState({ redirect: true });
   };
   render() {
     const loggedUserData = this.props.loginData;
-    const { shouldRedirectToLogin } = this.state;
+    const { redirect } = this.state;
 
-    if (shouldRedirectToLogin === true) {
-      this.setState({ shouldRedirectToLogin: false });
+    if (redirect) {
+      this.setState({ redirect: false });
       return <Redirect to="/login" />;
     }
 

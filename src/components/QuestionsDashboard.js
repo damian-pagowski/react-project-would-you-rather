@@ -21,7 +21,7 @@ class QuestionsDashboard extends Component {
   };
 
   render() {
-    if (this.props.authedUser === null) {
+    if (! this.props.authedUser) {
       return <Redirect to="/login" />;
     }
     return (
@@ -49,14 +49,14 @@ class QuestionsDashboard extends Component {
           </div>
 
           <ul className="dashboard-list">
-            {this.state.displayUnanswered
-              ? this.props.unansweredQuestions.map(id =>
+            { this.state.displayUnanswered
+              ? this.props.unansweredQuestions.length > 0 ? this.props.unansweredQuestions.map(id =>
                   <li key={id}>
                     <div>
                       <QuestionUnanswered id={id} />
                     </div>
                   </li>
-                )
+                ) : <h3 className="text-center">All questions answered...</h3>
               : this.props.answeredQuestions.map(id =>
                   <li key={id}>
                     <div>

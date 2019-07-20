@@ -19,6 +19,8 @@ class QuestionResult extends Component {
       optionTwoValue !== 0
         ? (optionTwoValue / (optionOneValue + optionTwoValue) * 100).toFixed(2)
         : 0
+        const userAnswer = this.props.users[this.props.authedUser].answers[question.id]
+        console.log("question", userAnswer)
     return (
       <div className='container'>
         <div className='card'>
@@ -33,11 +35,11 @@ class QuestionResult extends Component {
               </div>
               <div className='col-xs-6 col-sm-6 col-md-6'>
                 <h6 className='card-title'>
-                  {question.authorFullName} asked question:
+                  {question.authorFullName} asked: Would you rather...
                 </h6>
-                <p className='card-text'>Would you rather:</p>
                 <p className='card-text'>
                   {question.optionOne.text}
+                  {userAnswer === "optionOne" && <span class="badge badge-success"> Your Answer</span>}
                 </p>
                 <div className='progress'>
                   <div
@@ -51,9 +53,11 @@ class QuestionResult extends Component {
                     {optionOneLabel} %
                   </div>
                 </div>
-                <p className='card-text'>OR</p>
+                <p className='card-text'>...OR</p>
                 <p className='card-text'>
                   {question.optionTwo.text}
+                  {userAnswer === "optionTwo" && <span class="badge badge-success"> Your Answer</span>}
+
                 </p>
                 <div className='progress'>
                   <div
@@ -76,9 +80,10 @@ class QuestionResult extends Component {
     )
   }
 }
-function mapStateToProps ({ authedUser }) {
+function mapStateToProps ({ authedUser, users }) {
   return {
-    authedUser
+    authedUser,
+    users
   }
 }
 
