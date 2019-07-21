@@ -20,8 +20,7 @@ class QuestionUnanswered extends Component {
       return (
         <Redirect
           to={{
-            pathname: `/answering/${question.id}`,
-            state: { question: question, authedUser: this.props.authedUser },
+            pathname: `/answering/${question.id}`
           }}
         />
       );
@@ -45,11 +44,11 @@ class QuestionUnanswered extends Component {
               <h6 className="card-title">
                 {question.authorFullName} asked: Would you rather...
               </h6>
-              <p className="card-text bg-info">
+              <p className="card-text bg-light">
                 {question.optionOne.text}
               </p>
               <p className="card-text">OR</p>
-              <p className="card-text bg-info">
+              <p className="card-text bg-light">
                 {question.optionTwo.text}
               </p>
             </div>

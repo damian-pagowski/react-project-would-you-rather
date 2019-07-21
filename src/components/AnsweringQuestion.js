@@ -19,10 +19,10 @@ class AnsweringQuestion extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const qid = this.props.location.state.question.id;
+    const { id } = this.props.match.params;
     const { authedUser, dispatch } = this.props;
     const answer = this.state.answer;
-    const params = { authedUser, qid, answer };
+    const params = { authedUser, qid:id, answer };
     dispatch(handleSaveAnswer(params));
     this.setState({ redirect: true });
   };
@@ -31,14 +31,15 @@ class AnsweringQuestion extends Component {
     if (!this.props.authedUser) {
       return <Redirect to="/login" />;
     }
-    const question = this.props.location.state.question;
+    const { id } = this.props.match.params;
+    const question = this.props.questions[id];
+    const user = this.props.users[question.author];
 
     if (this.state.redirect) {
       return (
         <Redirect
           to={{
             pathname: `/results/${question.id}`,
-            state: { question: question, authedUser: this.props.authedUser },
           }}
         />
       );
@@ -50,13 +51,13 @@ class AnsweringQuestion extends Component {
             <div className="col-xs-3 col-sm-3 col-md-3">
               <img
                 className="img-fluid"
-                src={question.authorAvatar}
+                src={user.avatarURL}
                 alt="User Avatar"
               />
             </div>
             <div className="col-xs-6 col-sm-6 col-md-6">
               <h6 className="card-title">
-                {question.authorFullName} asked question:
+                {user.name} asked question:
               </h6>
               <p className="card-text">Would you rather:</p>
 
@@ -103,9 +104,11 @@ class AnsweringQuestion extends Component {
     );
   }
 }
-function mapStateToProps({ authedUser }) {
+function mapStateToProps({ authedUser, users, questions }) {
   return {
     authedUser,
+    users,
+    questions,
   };
 }
 

@@ -5,8 +5,8 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 
 import App from './components/App'
-import reducer from './reducers' // that imports everything that have default export
-import middleware from './middleware' // that imports everything that have default export
+import reducer from './reducers'
+import middleware from './middleware' 
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 

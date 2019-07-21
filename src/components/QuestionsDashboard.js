@@ -35,14 +35,14 @@ class QuestionsDashboard extends Component {
           <ul className="dashboard-list">
             {this.state.category === UNANSWERED &&
               this.props.unansweredQuestions &&
-              this.props.unansweredQuestions.length > 0 ?
+              this.props.unansweredQuestions.length > 0 &&
               this.props.unansweredQuestions.map(id =>
                 <li key={id}>
                   <div>
                     <QuestionUnanswered id={id} />
                   </div>
                 </li>
-              ) : <h3>No Questions. You can add new one</h3>}
+              )}
             {this.state.category === ANSWERED &&
               this.props.answeredQuestions &&
               this.props.answeredQuestions.length > 0 &&
@@ -62,9 +62,7 @@ class QuestionsDashboard extends Component {
 
 function mapStateToProps({ questions, users, authedUser }) {
   const currentUser = users[authedUser];
-  const answeredQuestions = currentUser
-    ? Object.keys(currentUser.answers)
-    : [];
+  const answeredQuestions = currentUser ? Object.keys(currentUser.answers) : [];
   const unansweredQuestions =
     answeredQuestions && questions
       ? Object.keys(questions).filter(id => !answeredQuestions.includes(id))

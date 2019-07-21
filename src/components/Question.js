@@ -8,12 +8,13 @@ class Question extends Component {
   };
 
   viewResults = () => {
-      this.setState({redirect : true})
+    this.setState({ redirect: true });
   };
 
   render() {
+    // const { handle } = this.props.match.params
     const question = this.props.question;
-    if (! this.props.authedUser) {
+    if (!this.props.authedUser) {
       return <Redirect to="/login" />;
     }
     if (this.state.redirect) {
@@ -21,12 +22,11 @@ class Question extends Component {
         <Redirect
           to={{
             pathname: `/results/${question.id}`,
-            state: { question: question, authedUser: this.props.authedUser },
           }}
         />
       );
     }
-
+    const user = this.props.user;
     return (
       <div className="card">
         <div className="card-body">
@@ -34,20 +34,20 @@ class Question extends Component {
             <div className="col-xs-3 col-sm-3 col-md-3">
               <img
                 className="img-fluid"
-                src={question.authorAvatar}
+                src={user.avatarURL}
                 alt="User Avatar"
               />
             </div>
             <div className="col-xs-6 col-sm-6 col-md-6">
               <h6 className="card-title">
-                {question.authorFullName} asked question:
+                {user.name} asked question:
               </h6>
               <p className="card-text">Would you rather:</p>
-              <p className="card-text bg-info">
+              <p className="card-text bg-light">
                 {question.optionOne.text}
               </p>
               <p className="card-text">OR</p>
-              <p className="card-text bg-info">
+              <p className="card-text bg-light">
                 {question.optionTwo.text}
               </p>
             </div>
@@ -62,18 +62,13 @@ class Question extends Component {
     );
   }
 }
-function mapStateToProps({ questions, users }, { id }) {
+function mapStateToProps({ questions, users, authedUser }, { id }) {
   const question = questions[id];
   const user = users[question.author];
   return {
-    // authedUser,
-    question:
-      Object.assign(
-        {},
-        question,
-        { authorFullName: user.name },
-        { authorAvatar: user.avatarURL }
-      ) || null,
+    question,
+    user,
+    authedUser,
   };
 }
 

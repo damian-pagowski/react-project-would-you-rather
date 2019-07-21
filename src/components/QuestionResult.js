@@ -8,7 +8,9 @@ class QuestionResult extends Component {
       return <Redirect to='/login' />
     }
 
-    const question = this.props.history.location.state.question
+    const { id } = this.props.match.params
+    const question = this.props.questions[id]
+    const user = this.props.users[question.author]
     const optionOneValue = question.optionOne.votes.length
     const optionTwoValue = question.optionTwo.votes.length
     const optionOneLabel =
@@ -19,7 +21,9 @@ class QuestionResult extends Component {
       optionTwoValue !== 0
         ? (optionTwoValue / (optionOneValue + optionTwoValue) * 100).toFixed(2)
         : 0
-        const userAnswer = this.props.users[this.props.authedUser].answers[question.id]
+    const userAnswer = this.props.users[this.props.authedUser].answers[
+      question.id
+    ]
     return (
       <div className='container'>
         <div className='card'>
@@ -28,23 +32,22 @@ class QuestionResult extends Component {
               <div className='col-xs-3 col-sm-3 col-md-3'>
                 <img
                   className='img-fluid'
-                  src={question.authorAvatar}
+                  src={user.avatarURL}
                   alt='User Avatar'
                 />
               </div>
               <div className='col-xs-6 col-sm-6 col-md-6'>
                 <h6 className='card-title'>
-                  {question.authorFullName} asked: Would you rather...
+                  {user.name} asked: Would you rather...
                 </h6>
-                <p className='card-text'>
+                <p className='card-text m-2'>
                   {question.optionOne.text}
-                  {userAnswer === "optionOne" && <span class="badge badge-success"> Your Answer</span>}
                 </p>
                 <div className='progress'>
                   <div
                     className='progress-bar'
                     role='progressbar'
-                    aria-valuenow='70'
+                    aria-valuenow={optionOneLabel}
                     aria-valuemin='0'
                     aria-valuemax='100'
                     style={{ width: optionOneLabel + '%' }}
@@ -52,17 +55,20 @@ class QuestionResult extends Component {
                     {optionOneLabel} %
                   </div>
                 </div>
-                <p className='card-text'>...OR</p>
-                <p className='card-text'>
-                  {question.optionTwo.text}
-                  {userAnswer === "optionTwo" && <span class="badge badge-success"> Your Answer</span>}
+                <span className='badge badge-light'>
+                  {optionOneValue} Votes{' '}
+                  {userAnswer === 'optionOne' &&
+                    <span className='badge badge-success'>Your Answer</span>}
+                </span>
 
+                <p className='card-text m-2'>
+                  {question.optionTwo.text}
                 </p>
                 <div className='progress'>
                   <div
                     className='progress-bar'
                     role='progressbar'
-                    aria-valuenow='70'
+                    aria-valuenow={optionTwoLabel}
                     aria-valuemin='0'
                     aria-valuemax='100'
                     style={{ width: optionTwoLabel + '%' }}
@@ -70,6 +76,11 @@ class QuestionResult extends Component {
                     {optionTwoLabel} %
                   </div>
                 </div>
+                <span className='badge badge-light'>
+                  {optionTwoValue} Votes{' '}
+                  {userAnswer === 'optionTwo' &&
+                    <span className='badge badge-success'> Your Answer</span>}
+                </span>
               </div>
               <div className='col-xs-3 col-sm-3 col-md-3' />
             </div>
@@ -79,10 +90,11 @@ class QuestionResult extends Component {
     )
   }
 }
-function mapStateToProps ({ authedUser, users }) {
+function mapStateToProps ({ authedUser, users, questions }) {
   return {
     authedUser,
-    users
+    users,
+    questions
   }
 }
 
