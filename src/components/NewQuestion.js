@@ -10,22 +10,8 @@ class NewQuestion extends Component {
     redirect: false,
   };
 
-
-  handleChangePartOne = e => {
-    e.preventDefault();
-
-    const text = e.target.value;
-    this.setState(() => ({
-      optionOneText: text,
-    }));
-  };
-
-  handleChangePartTwo = e => {
-    e.preventDefault();
-    const text = e.target.value;
-    this.setState(() => ({
-      optionTwoText: text,
-    }));
+  handleAnswerChange = e => {
+    this.setState({[e.target.name]: e.target.value});
   };
 
   handleSubmit = e => {
@@ -69,25 +55,24 @@ class NewQuestion extends Component {
               className="form-control"
               id="part1"
               placeholder="Enter question one"
-              name="part1"
+              name="optionOneText"
               required
-              onChange={this.handleChangePartOne}
+              onChange={this.handleAnswerChange}
               value={this.state.optionOneText}
             />
           </div>
           <p className="text-center">
             <b>- OR -</b>
           </p>
-
           <div className="form-group">
             <input
               type="text"
               className="form-control"
               id="part2"
               placeholder="Enter question one"
-              name="part2"
+              name="optionTwoText"
               required
-              onChange={this.handleChangePartTwo}
+              onChange={this.handleAnswerChange}
               value={this.state.optionTwoText}
             />
           </div>
