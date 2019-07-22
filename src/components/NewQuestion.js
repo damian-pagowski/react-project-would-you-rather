@@ -11,7 +11,7 @@ class NewQuestion extends Component {
   };
 
   handleAnswerChange = e => {
-    this.setState({[e.target.name]: e.target.value});
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   handleSubmit = e => {
@@ -34,13 +34,9 @@ class NewQuestion extends Component {
 
   render() {
     const { redirect } = this.state;
-    const author = this.props.author;
 
     if (redirect) {
       return <Redirect to="/" />;
-    }
-    if (author === null) {
-      return <Redirect to="/login" />;
     }
     return (
       <div className="container">

@@ -1,24 +1,18 @@
 import React from 'react'
 import User from './User'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 
-const UsersDashboard = (props) => {
-  if (!props.authedUser) {
-    return <Redirect to='/login' />
-  }
+const UsersDashboard = props => {
   return (
     <div>
       <h3 className='text-center'>Top Users</h3>
       <div className='container'>
         <ul className='dashboard-list'>
-          {props.formattedUsers
-            .sort((a, b) => b.scores - a.scores)
-            .map(user =>
-              <li key={user.id}>
-                <User user={user} />
-              </li>
-            )}
+          {props.formattedUsers.sort((a, b) => b.scores - a.scores).map(user =>
+            <li key={user.id}>
+              <User user={user} />
+            </li>
+          )}
         </ul>
       </div>
     </div>

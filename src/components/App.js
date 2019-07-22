@@ -5,11 +5,30 @@ import QuestionsDashboard from './QuestionsDashboard'
 import UsersDashboard from './UsersDashboard'
 import Login from './Login'
 import NewQuestion from './NewQuestion'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import Navbar from './Navbar'
-import QuestionDetails from './QuestionDetails';
+import QuestionDetails from './QuestionDetails'
 
+let that
+
+const PrivateRoute = ({ component: Component, ...rest }) =>
+  <Route
+    {...rest}
+    render={props =>
+      that.props.authedUser && that.props.authedUser.length > 0
+        ? <Component {...props} />
+        : <Redirect
+          to={{
+            pathname: '/login',
+            state: { from: props.location }
+          }}
+          />}
+  />
 class App extends Component {
+  constructor (props) {
+    super(props)
+    that = this
+  }
   componentDidMount () {
     this.props.dispatch(handleInitialData())
   }
@@ -20,13 +39,14 @@ class App extends Component {
         <Fragment>
           <div className='main-container'>
             <Navbar />
-            <Route path='/' exact component={QuestionsDashboard} />
-            <Route path='/leaderboard' component={UsersDashboard} />
-            <Route path='/add' component={NewQuestion} />
+            <PrivateRoute path='/' exact component={QuestionsDashboard} />
+            <PrivateRoute path='/leaderboard' component={UsersDashboard} />
+            <PrivateRoute path='/add' component={NewQuestion} />
             <Route path='/login' component={Login} />
-            {/* <Route path='/answering/:id' component={AnsweringQuestion} /> */}
-            {/* <Route path='/questions/:question_id' component={QuestionResult} /> */}
-            <Route path='/questions/:question_id' component={QuestionDetails} />
+            <PrivateRoute
+              path='/questions/:question_id'
+              component={QuestionDetails}
+            />
           </div>
         </Fragment>
       </Router>
@@ -34,4 +54,9 @@ class App extends Component {
   }
 }
 
-export default connect()(App)
+function mapStateToProps ({ authedUser }) {
+  return {
+    authedUser
+  }
+}
+export default connect(mapStateToProps)(App)

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import QuestionListItem from "./QuestionListItem";
 
 const ANSWERED = "ANSWERED";
@@ -20,9 +19,6 @@ class QuestionsDashboard extends Component {
         ? this.props.unansweredQuestions
         : this.props.answeredQuestions;
 
-    if (!this.props.authedUser) {
-      return <Redirect to="/login" />;
-    }
     return (
       <div className="mt-4">
         <div className="container">

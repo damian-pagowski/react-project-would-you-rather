@@ -13,9 +13,6 @@ class QuestionListItem extends Component {
 
   render() {
     const question = this.props.question;
-    if (!this.props.authedUser) {
-      return <Redirect to="/login" />;
-    }
     if (this.state.redirect) {
       return (
         <Redirect

@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom";
 
 class Login extends Component {
   state = {
-    redirect: false,
+    redirectToReferrer: false,
     selectedUser: null,
   };
 
@@ -23,14 +23,17 @@ class Login extends Component {
 
     dispatch(setAuthedUser(selectedUser)); 
     this.setState({
-      redirect: true,
+      redirectToReferrer: true
     });
   };
 
   render() {
     const loginData = this.props.loginData;
-    if (this.state.redirect) {
-      return <Redirect to="/" />;
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { redirectToReferrer } = this.state
+
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />
     }
     return (
       <div className="container">

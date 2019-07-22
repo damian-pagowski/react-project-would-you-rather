@@ -1,12 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 
 const QuestionResult = props => {
-  if (!props.authedUser) {
-    return <Redirect to='/login' />
-  }
-
   return (
     <div className='container'>
       <div className='card'>
@@ -74,11 +69,7 @@ const QuestionResult = props => {
 }
 
 function mapStateToProps ({ questions, authedUser, users }, props) {
-
-  console.log("question results props>> ", JSON.stringify(props))
-  console.log("question results >> ", Object.keys(JSON.stringify(props)))
-
-  const id = props.id;
+  const id = props.id
   const question = questions[id]
   const optionOneVotes = question && question.optionOne.votes.length
   const optionTwoVotes = question && question.optionTwo.votes.length

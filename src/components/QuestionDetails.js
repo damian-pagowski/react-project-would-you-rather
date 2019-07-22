@@ -1,18 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 import QuestionResult from './QuestionResult'
 import AnsweringQuestion from './AnsweringQuestion'
 
 const QuestionDetails = props => {
-  if (!props.authedUser) {
-    return <Redirect to='/login' />
-  }
-
   const componentToDisplay = props.isAnswered
     ? <QuestionResult id={props.id} />
     : <AnsweringQuestion id={props.id} />
-    
 
   return (
     <div>
@@ -26,11 +20,6 @@ function mapStateToProps ({ users, authedUser }, props) {
   const currentUser = users[authedUser]
   const isAnswered =
     currentUser && Object.keys(currentUser.answers).includes(id)
-  
-    // console.log("PROPS", JSON.stringify(props))
-    // console.log("PROPS KEYS", Object.keys(props))
-    // console.log("ID >> ", props.id)
-    // console.log(">> match params >> ", id)
 
   return {
     isAnswered: isAnswered,
