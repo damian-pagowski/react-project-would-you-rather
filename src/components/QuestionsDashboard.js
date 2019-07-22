@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Question from "./Question";
 import { Redirect } from "react-router-dom";
-import QuestionUnanswered from "./QuestionUnanswered";
+import QuestionListItem from "./QuestionListItem";
 
 const ANSWERED = "ANSWERED";
 const UNANSWERED = "UNANSWERED";
@@ -16,6 +15,11 @@ class QuestionsDashboard extends Component {
   };
 
   render() {
+    const listElements =
+      this.state.category === UNANSWERED
+        ? this.props.unansweredQuestions
+        : this.props.answeredQuestions;
+
     if (!this.props.authedUser) {
       return <Redirect to="/login" />;
     }
@@ -33,26 +37,13 @@ class QuestionsDashboard extends Component {
             </select>
           </div>
           <ul className="dashboard-list">
-            {this.state.category === UNANSWERED &&
-              this.props.unansweredQuestions &&
-              this.props.unansweredQuestions.length > 0 &&
-              this.props.unansweredQuestions.map(id =>
-                <li key={id}>
-                  <div>
-                    <QuestionUnanswered id={id} />
-                  </div>
-                </li>
-              )}
-            {this.state.category === ANSWERED &&
-              this.props.answeredQuestions &&
-              this.props.answeredQuestions.length > 0 &&
-              this.props.answeredQuestions.map(id =>
-                <li key={id}>
-                  <div>
-                    <Question id={id} />
-                  </div>
-                </li>
-              )}
+            {listElements.map(id =>
+              <li key={id}>
+                <div>
+                  <QuestionListItem id={id} />
+                </div>
+              </li>
+            )}
           </ul>
         </div>
       </div>
@@ -61,17 +52,19 @@ class QuestionsDashboard extends Component {
 }
 
 function mapStateToProps({ questions, users, authedUser }) {
-  const sortedQuestionIDs = Object.values(questions).sort((q1, q2) => q2.timestamp - q1.timestamp).map(q => q.id);
+  const sortedQuestionIDs = Object.values(questions)
+    .sort((q1, q2) => q2.timestamp - q1.timestamp)
+    .map(q => q.id);
   const currentUser = users[authedUser];
-  const userAnswers = currentUser
-    ? Object.keys(currentUser.answers)
-    : [];
-  const answeredQuestions = sortedQuestionIDs && sortedQuestionIDs.filter(q => userAnswers.includes(q));
-  const unansweredQuestions = sortedQuestionIDs && sortedQuestionIDs.filter(q => ! userAnswers.includes(q));
+  const userAnswers = currentUser ? Object.keys(currentUser.answers) : [];
+  const answeredQuestions =
+    sortedQuestionIDs && sortedQuestionIDs.filter(q => userAnswers.includes(q));
+  const unansweredQuestions =
+    sortedQuestionIDs &&
+    sortedQuestionIDs.filter(q => !userAnswers.includes(q));
 
   return {
     authedUser,
-    questionIds: sortedQuestionIDs,
     answeredQuestions: answeredQuestions,
     unansweredQuestions,
   };

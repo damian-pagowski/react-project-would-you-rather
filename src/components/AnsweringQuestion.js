@@ -19,27 +19,24 @@ class AnsweringQuestion extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { id } = this.props.match.params;
-    const { authedUser, dispatch } = this.props;
+    const { id, authedUser, dispatch } = this.props;
     const answer = this.state.answer;
-    const params = { authedUser, qid:id, answer };
+    const params = { authedUser, qid: id, answer };
     dispatch(handleSaveAnswer(params));
     this.setState({ redirect: true });
   };
 
   render() {
+    const { id, question, user } = this.props;
     if (!this.props.authedUser) {
       return <Redirect to="/login" />;
     }
-    const { id } = this.props.match.params;
-    const question = this.props.questions[id];
-    const user = this.props.users[question.author];
 
     if (this.state.redirect) {
       return (
         <Redirect
           to={{
-            pathname: `/results/${question.id}`,
+            pathname: `/questions/${id}`,
           }}
         />
       );
@@ -104,11 +101,17 @@ class AnsweringQuestion extends Component {
     );
   }
 }
-function mapStateToProps({ authedUser, users, questions }) {
+function mapStateToProps({ authedUser, users, questions }, props) {
+  const id = props.id;
+  const question = questions[props.id];
+  const user = users[question.author];
+
   return {
     authedUser,
     users,
-    questions,
+    question,
+    user,
+    id,
   };
 }
 

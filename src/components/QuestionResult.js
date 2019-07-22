@@ -74,7 +74,11 @@ const QuestionResult = props => {
 }
 
 function mapStateToProps ({ questions, authedUser, users }, props) {
-  const { id } = props.match.params
+
+  console.log("question results props>> ", JSON.stringify(props))
+  console.log("question results >> ", Object.keys(JSON.stringify(props)))
+
+  const id = props.id;
   const question = questions[id]
   const optionOneVotes = question && question.optionOne.votes.length
   const optionTwoVotes = question && question.optionTwo.votes.length

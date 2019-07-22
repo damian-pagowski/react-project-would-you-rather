@@ -2,33 +2,29 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-class QuestionUnanswered extends Component {
+class QuestionListItem extends Component {
   state = {
     redirect: false,
   };
 
-  handleAnswerQuestion = e => {
-    e.preventDefault();
+  handleButtonClick = () => {
     this.setState({ redirect: true });
   };
+
   render() {
-    if (!this.props.authedUser) {
-      return <Redirect to='/login' />
-    }
     const question = this.props.question;
+    if (!this.props.authedUser) {
+      return <Redirect to="/login" />;
+    }
     if (this.state.redirect) {
       return (
         <Redirect
           to={{
-            pathname: `/answering/${question.id}`
+            pathname: `/questions/${question.id}`,
           }}
         />
       );
     }
-    if (this.props.authedUser === null) {
-      return <Redirect to="/login" />;
-    }
-
     return (
       <div className="card">
         <div className="card-body">
@@ -42,8 +38,9 @@ class QuestionUnanswered extends Component {
             </div>
             <div className="col-xs-6 col-sm-6 col-md-6">
               <h6 className="card-title">
-                {question.authorFullName} asked: Would you rather...
+                {question.authorName} asked question:
               </h6>
+              <p className="card-text">Would you rather:</p>
               <p className="card-text bg-light">
                 {question.optionOne.text}
               </p>
@@ -55,9 +52,9 @@ class QuestionUnanswered extends Component {
             <div className="col-xs-3 col-sm-3 col-md-3">
               <button
                 className="btn btn-primary"
-                onClick={this.handleAnswerQuestion}
+                onClick={this.handleButtonClick}
               >
-                Answer
+                {question.isAnswered === true ? "Results" : "Vote"}
               </button>
             </div>
           </div>
@@ -69,16 +66,17 @@ class QuestionUnanswered extends Component {
 function mapStateToProps({ questions, users, authedUser }, { id }) {
   const question = questions[id];
   const user = users[question.author];
+  const currentUser = users[authedUser];
+  const isAnswered = currentUser && Object.keys(currentUser.answers).includes(id);
   return {
+    question: {
+      ...question,
+      isAnswered,
+      authorAvatar: user.avatarURL,
+      authorName: user.name,
+    },
     authedUser,
-    question:
-      Object.assign(
-        {},
-        question,
-        { authorFullName: user ? user.name : "no name" },
-        { authorAvatar: user ? user.avatarURL : "none" }
-      ) || null,
   };
 }
 
-export default connect(mapStateToProps)(QuestionUnanswered);
+export default connect(mapStateToProps)(QuestionListItem);

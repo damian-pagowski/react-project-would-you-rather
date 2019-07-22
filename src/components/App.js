@@ -7,8 +7,7 @@ import Login from './Login'
 import NewQuestion from './NewQuestion'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Navbar from './Navbar'
-import AnsweringQuestion from './AnsweringQuestion'
-import QuestionResult from './QuestionResult'
+import QuestionDetails from './QuestionDetails';
 
 class App extends Component {
   componentDidMount () {
@@ -25,8 +24,9 @@ class App extends Component {
             <Route path='/leaderboard' component={UsersDashboard} />
             <Route path='/add' component={NewQuestion} />
             <Route path='/login' component={Login} />
-            <Route path='/answering/:id' component={AnsweringQuestion} />
-            <Route path='/results/:id' component={QuestionResult} />
+            {/* <Route path='/answering/:id' component={AnsweringQuestion} /> */}
+            {/* <Route path='/questions/:question_id' component={QuestionResult} /> */}
+            <Route path='/questions/:question_id' component={QuestionDetails} />
           </div>
         </Fragment>
       </Router>
