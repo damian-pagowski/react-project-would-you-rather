@@ -69,7 +69,6 @@ class Navbar extends Component {
               <button
                 className="nav-link button-link"
                 onClick={this.handleLogout}
-                exact
               >
                 <i className="fa fa-sign-out" /> Logout
               </button>

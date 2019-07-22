@@ -34,7 +34,7 @@ function mapStateToProps ({ users, authedUser }) {
     questions: Object.keys(questions).length,
     answers: Object.keys(answers).length,
     scores: Object.keys(questions).length + Object.keys(answers).length,
-    avatar: avatarURL
+    avatarURL
   }))
 
   return {

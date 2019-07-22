@@ -12,7 +12,6 @@ class Question extends Component {
   };
 
   render() {
-    // const { handle } = this.props.match.params
     const question = this.props.question;
     if (!this.props.authedUser) {
       return <Redirect to="/login" />;

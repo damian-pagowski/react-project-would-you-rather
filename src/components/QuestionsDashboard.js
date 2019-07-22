@@ -61,16 +61,18 @@ class QuestionsDashboard extends Component {
 }
 
 function mapStateToProps({ questions, users, authedUser }) {
+  const sortedQuestionIDs = Object.values(questions).sort((q1, q2) => q2.timestamp - q1.timestamp).map(q => q.id);
   const currentUser = users[authedUser];
-  const answeredQuestions = currentUser ? Object.keys(currentUser.answers) : [];
-  const unansweredQuestions =
-    answeredQuestions && questions
-      ? Object.keys(questions).filter(id => !answeredQuestions.includes(id))
-      : [];
+  const userAnswers = currentUser
+    ? Object.keys(currentUser.answers)
+    : [];
+  const answeredQuestions = sortedQuestionIDs && sortedQuestionIDs.filter(q => userAnswers.includes(q));
+  const unansweredQuestions = sortedQuestionIDs && sortedQuestionIDs.filter(q => ! userAnswers.includes(q));
+
   return {
-    questionIds: Object.keys(questions),
     authedUser,
-    answeredQuestions,
+    questionIds: sortedQuestionIDs,
+    answeredQuestions: answeredQuestions,
     unansweredQuestions,
   };
 }
