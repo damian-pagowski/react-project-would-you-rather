@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { signOut } from '../actions/authedUser'
+import { handleLogout } from '../actions/authedUser'
 
-const handleLogout = (e, props) => {
-  const { dispatch } = props
+const handleSignOut = (e, props) => {
   e.preventDefault()
-  dispatch(signOut())
+  const { dispatch } = props
+  dispatch(handleLogout()); 
 }
 
 const Navbar = props => {
@@ -56,7 +56,7 @@ const Navbar = props => {
           <li className='nav-item'>
             <button
               className='nav-link button-link'
-              onClick={e => handleLogout(e, props)}
+              onClick={e => handleSignOut(e, props)}
             >
               <i className='fa fa-sign-out' /> Logout
             </button>

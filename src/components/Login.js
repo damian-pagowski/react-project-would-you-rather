@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setAuthedUser } from "../actions/authedUser";
+import { handleLogin } from "../actions/authedUser";
 import { Redirect } from "react-router-dom";
 
 class Login extends Component {
@@ -21,7 +21,7 @@ class Login extends Component {
     const selectedUser = this.state.selectedUser;
     const { dispatch } = this.props;
 
-    dispatch(setAuthedUser(selectedUser)); 
+    dispatch(handleLogin(selectedUser)); 
     this.setState({
       redirectToReferrer: true
     });

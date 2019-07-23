@@ -5,17 +5,23 @@ import QuestionsDashboard from './QuestionsDashboard'
 import UsersDashboard from './UsersDashboard'
 import Login from './Login'
 import NewQuestion from './NewQuestion'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch
+} from 'react-router-dom'
 import Navbar from './Navbar'
 import QuestionDetails from './QuestionDetails'
-
-let that
+import NotFound from './NotFound'
+import { isSessionAuthenticated } from '../utils/fakeAuth'
+const context = {}
 
 const PrivateRoute = ({ component: Component, ...rest }) =>
   <Route
     {...rest}
     render={props =>
-      that.props.authedUser && that.props.authedUser.length > 0
+      isSessionAuthenticated()
         ? <Component {...props} />
         : <Redirect
           to={{
@@ -27,7 +33,7 @@ const PrivateRoute = ({ component: Component, ...rest }) =>
 class App extends Component {
   constructor (props) {
     super(props)
-    that = this
+    context.that = this
   }
   componentDidMount () {
     this.props.dispatch(handleInitialData())
@@ -39,14 +45,22 @@ class App extends Component {
         <Fragment>
           <div className='main-container'>
             <Navbar />
-            <PrivateRoute path='/' exact component={QuestionsDashboard} />
-            <PrivateRoute path='/leaderboard' component={UsersDashboard} />
-            <PrivateRoute path='/add' component={NewQuestion} />
-            <Route path='/login' component={Login} />
-            <PrivateRoute
-              path='/questions/:question_id'
-              component={QuestionDetails}
-            />
+            <Switch>
+              <PrivateRoute path='/' exact component={QuestionsDashboard} />
+              <PrivateRoute
+                path='/leaderboard'
+                exact
+                component={UsersDashboard}
+              />
+              <PrivateRoute path='/add' exact component={NewQuestion} />
+              <Route path='/login' exact component={Login} />
+              <PrivateRoute
+                path='/questions/:question_id'
+                component={QuestionDetails}
+              />
+              <PrivateRoute path='/error-404' component={NotFound} />
+              <PrivateRoute component={NotFound} />
+            </Switch>
           </div>
         </Fragment>
       </Router>

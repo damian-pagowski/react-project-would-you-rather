@@ -28,9 +28,6 @@ class AnsweringQuestion extends Component {
 
   render() {
     const { id, question, user } = this.props;
-    if (!this.props.authedUser) {
-      return <Redirect to="/login" />;
-    }
 
     if (this.state.redirect) {
       return (

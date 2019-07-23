@@ -1,11 +1,19 @@
 import { SET_AUTHED_USER, LOGOUT } from '../actions/authedUser'
+import {
+  isSessionAuthenticated,
+  getAuthenticatedUser
+} from '../utils/fakeAuth'
 
-export default function authedUser (state = null, action) {
+export const UNAUTHORIZED = 'unauthorized'
+export default function authedUser (
+  state = isSessionAuthenticated() ? getAuthenticatedUser() : UNAUTHORIZED,
+  action
+) {
   switch (action.type) {
     case SET_AUTHED_USER:
       return action.id
     case LOGOUT:
-      return null;
+      return UNAUTHORIZED
     default:
       return state
   }
