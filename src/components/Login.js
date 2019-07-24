@@ -66,6 +66,7 @@ class Login extends Component {
                   <button
                     className="btn btn-primary btn-block text-uppercase mt-3"
                     type="submit"
+                    disabled={!this.state.selectedUser}
                   >
                     Sign in
                   </button>
