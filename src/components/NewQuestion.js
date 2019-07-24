@@ -16,20 +16,7 @@ class NewQuestion extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { dispatch, author } = this.props;
-    const question = {
-      optionOneText: this.state.optionOneText,
-      optionTwoText: this.state.optionTwoText,
-      author,
-    };
-
-    dispatch(handleAddQuestion(question));
-
-    this.setState(() => ({
-      optionOneText: "",
-      optionTwoText: "",
-      redirect: true,
-    }));
+    this.props.addQuestion(this);
   };
 
   render() {
@@ -84,6 +71,22 @@ function mapStateToProps({ authedUser }) {
   return {
     author: authedUser,
     authedUser,
+    addQuestion : (component) => {
+
+      const { dispatch, author } = component.props;
+      const question = {
+        optionOneText: component.state.optionOneText,
+        optionTwoText: component.state.optionTwoText,
+        author,
+      };
+  
+      dispatch(handleAddQuestion(question));
+  
+      component.setState(() => ({
+        optionOneText: "",
+        optionTwoText: "",
+        redirect: true,
+      }));    }
   };
 }
 
