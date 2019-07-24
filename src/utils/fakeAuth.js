@@ -22,7 +22,7 @@ function setCookie (cname, cvalue, exdays) {
 }
 
 function deleteCookie (cname) {
-  document.cookie = cname + '=;expires=Wed; 01 Jan 1970'
+  document.cookie = cname + '=;expires=Wed, 01 Jan 1970;path=/'
 }
 
 function getCookie (cname) {
